@@ -1,0 +1,68 @@
+<%- include('../partials/header') %>
+
+<h2>Flight Details</h2>
+
+<form action="/flights/<%=flight._id%>/details" method="POST">  
+      <label>Airport:
+        <select name="airport">
+          <option value="AUS">AUS</option>
+        <option value="DFW">DFW</option>
+        <option value="DEN" selected>DEN</option>
+        <option value="LAX">LAX</option>
+        <option value="SAN">SAN</option>
+        </select>
+      </label>
+      <br>
+      <br>
+
+      <label>Arrival:
+        <input   type="datetime-local"  name="arrival"  value=<%=arrivalTime%> >
+  
+    </input>
+    </label>
+
+     <br>
+     <br>
+     <br>
+      <button type="submit">Add Details</button>
+    </form>
+
+<hr>
+
+
+<!-- New markup below -->
+
+<% if (flight.destination.length) { %>
+  <table>
+    <thead>
+      <tr>
+        <th>Airport</th>
+        <th>Arrival Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% flight.destination.forEach(function(d) { %>
+        <tr>
+          <!-- .toLocaleString() provides a more friendly date format -->
+      
+          <td><%= d.airport %></td>
+          <% let dt=new Date(d.arrival);
+          let arrivalTime = `${dt.getFullYear()}-${(dt.getMonth() + 1).toString().padStart(2, '0')}`;
+          arrivalTime += `-${dt.getDate().toString().padStart(2, '0')}T${dt.toTimeString().slice(0, 5)}`;
+         
+%>
+          <td><%= arrivalTime %></td>
+
+         
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+<% } else { %>
+  <h5>No Details Yet</h5>
+<% } %>
+
+
+
+
+<%- include('../partials/footer') %>  

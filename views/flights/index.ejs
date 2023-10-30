@@ -11,14 +11,38 @@
     </tr>
   </thead>
   <tbody>
-    <% flights.forEach(function(flight) { %>
+    <% flights.forEach(function(flight) {
+        
+     %>
+     
       <tr>
+        <td>
+        <form action="/flights/<%=flight._id%>">
+          <button type="submit">Details</button>
+        </form>
+      </td>
+        <td><%= flight.airline %></td>
         <td><%= flight.airline %></td>
         <td><%= flight.airport %></td>
         <td><%= flight.flightNo %></td>
-        <td><%= (new Date(flight.departs)).toLocaleString('en-US', { hour12: false }).slice(0, 17) %></td>
 
-        
+
+        <% let dt=new Date(flight.departs);
+          let departsTime = `${dt.getFullYear()}-${(dt.getMonth() + 1).toString().padStart(2, '0')}`;
+          departsTime += `-${dt.getDate().toString().padStart(2, '0')}T${dt.toTimeString().slice(0, 5)}`;
+          
+           %>
+          
+        <td style="<%= dt < new Date() ? 'color: red;' : '' %>">
+  <%= departsTime %>
+</td>
+
+
+        <td>
+          <form action="/flights/<%=flight._id%>?_method=DELETE" method="POST">
+            <button>X</button>
+          </form>
+        </td>
 
       </tr>
     <% }) %>
