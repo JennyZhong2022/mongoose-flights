@@ -1,0 +1,21 @@
+<%- include('../partials/header') %>
+
+<br><br>
+<div>Before adding, please ensure that the ticket is not in the following list:</div>
+<br>
+<section>
+  <% tickets.forEach(function(ticket) { %>
+    
+    <article >Seat: <%= ticket.seat %> Price: $ <%= ticket.price %> </article>
+  <% }) %>
+</section>
+
+<form action="/tickets" method="POST">
+  <label>Seat:</label>
+  <input type="text" name="seat" pattern="[A-F][1-9]\d?" required> 
+  <label>Price:</label>
+  <input type="number" name="price" required>
+  <button type="submit">Add a ticket</button> <!-- Moved type="submit" here -->
+</form>
+
+<%- include('../partials/footer') %>

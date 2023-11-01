@@ -1,4 +1,5 @@
 const flightsDb = require('../models/flight')
+const ticketDb=require('../models/ticket')
 
 
 const index = async (req, res) => {
@@ -7,19 +8,28 @@ const index = async (req, res) => {
 }
 
 const show = async (req, res) => {
-  const flight = await flightsDb.findById(req.params.id);
-  
+  try {
+    const flight = await flightsDb.findById(req.params.id );
+    const tickets = await ticketDb.find({flight:null })
+    
+    const bookings = await ticketDb.find({ flight: req.params.id })
+
+   
   flight.destination.sort((a,b)=>new Date(a.arrival)-new Date(b.arrival))
   // Format the default date for the input field
   const today = new Date(); 
 today.setFullYear(today.getFullYear() + 1); 
 const dt = new Date(today);
   let arrivalTime = `${dt.getFullYear()}-${(dt.getMonth() + 1).toString().padStart(2, '0')}`;
-  arrivalTime += `-${dt.getDate().toString().padStart(2, '0')}T${dt.toTimeString().slice(0, 5)}`;
-  console.log('date',arrivalTime);
- 
- 
-  res.render('flights/show',{flight,arrivalTime })
+    arrivalTime += `-${dt.getDate().toString().padStart(2, '0')}T${dt.toTimeString().slice(0, 5)}`;
+    
+  res.render('flights/show', { flight, tickets, arrivalTime,bookings })
+  }
+  catch (err) {
+    console.log(err);
+    res.status(500).send("Internal Server Error")
+  }
+
 }
 
 const newFlight = (req, res) => {

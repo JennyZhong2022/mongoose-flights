@@ -7,9 +7,11 @@ require('dotenv').config()
 require('./config/database')
 const methodOverride = require('method-override');
 
+
 const indexRouter = require('./routes/index');
 const flightsRouter = require('./routes/flights');
-const detailsRouter=require('./routes/details')
+const detailsRouter = require('./routes/details')
+const ticketRouter=require('./routes/tickets')
 
 const app = express();
 
@@ -27,7 +29,8 @@ app.use(methodOverride('_method'));
 
 app.use('/', indexRouter);
 app.use('/flights', flightsRouter);
-app.use('/flights',detailsRouter)
+app.use('/flights', detailsRouter);
+app.use('/',ticketRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

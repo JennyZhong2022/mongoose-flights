@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const flightController = require('../controllers/details')
+const detailsController = require('../controllers/details')
 
-router.post('/:id/details',flightController.create)
+router.post('/:id/details',detailsController.create)
 
 module.exports=router

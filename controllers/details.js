@@ -1,5 +1,6 @@
 const flightsDb = require('../models/flight')
 
+
 const create = async (req, res) => {
   const newDestination = {
     airport: req.body.airport,
